@@ -3,16 +3,47 @@ let k=0;
 export default function Todo(){
 const [item,setItem]= useState('');
 const [itemList,setItemList]=useState([]);
+const [highlight,setHighlight]=useState([]);
 
 function addItem(){
   setItemList([
     ...itemList,
     {
       itemId:Date.now(),
-      item:item
+      item:item,
+     
     }
   ])
   setItem('');
+  
+}
+
+// function updateItem(items){
+//   setItemList(prevItemList=>prevItemList.map(i=>{
+//     if(i.itemId===items.itemId){
+//       return {...i,item:items.item}
+//     }else{
+//       return i
+//     }
+//   }))
+
+
+// }
+
+function changeBgColor(items){
+
+  if(highlight.includes(items)){
+    setHighlight(highlight.filter(i=>i!=items))
+  }else{
+  setHighlight([
+    ...highlight,items
+  ]);
+}
+
+
+  
+
+ 
 }
 
 return(
@@ -44,18 +75,37 @@ return(
 <ul>
   {
     itemList.map(i=> <li key={i.itemId}
-                         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', borderBottom: '1px solid #dee2e6' }}
+                         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', borderBottom: '1px solid #dee2e6', backgroundColor:highlight.includes(i.item)?'#Fff44f':'white' }}
                      > 
                       <span style={{ flex: 1, textAlign: 'left' }}> {i.item} </span>
 
+                      
+                       
+                       {/* <button 
+                             type="button" 
+                             className="btn btn-success"
+                             onClick={()=>updateItem(i)}
+                             
+                             >
+                             Edit
+                        </button> */}
+
                        <button type="button"
                                className="btn btn-danger"
-                               style={{marginLeft: '20px'
-                               }}
+                               style={{marginLeft: '20px'}}
                                onClick={()=>setItemList(itemList.filter(p=>p.itemId!=i.itemId))} 
-                        >Delete</button>
+                        >  Delete  </button>
+
+                        <button type="button" 
+                                className="btn btn-outline-secondary" 
+                                style={{marginLeft: '20px' }}
+                                onClick={()=>changeBgColor(i.item)}>
+                                
+                        highlight</button>
                      
                      </li> 
+
+                     
                 )
   }
 </ul>
