@@ -1,9 +1,9 @@
+import { useContext } from "react"
 import styles from "./TodoMap.module.css"
+import { ItemsContext } from "../contextStore/todoItemsContext";
+export default function TodoMap(){
 
-
-export default function TodoMap({itemList,onDeleteClick}){
-
-  
+  const {itemList,deleteButton}=useContext(ItemsContext);
   return(
 
     <>
@@ -20,7 +20,7 @@ export default function TodoMap({itemList,onDeleteClick}){
                        <button type="button"
                                className="btn btn-danger"
                                
-                               onClick={()=>onDeleteClick(i.item)} 
+                               onClick={()=>deleteButton(i.item)} 
                         >  Delete  </button>
 
                         {/* <button type="button" 

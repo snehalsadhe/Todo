@@ -1,20 +1,28 @@
 
-import { useState } from "react";
-export default function Todo({onAddButtonClick}){
-  const [item,setItem]= useState();
+import { useState,useRef, useContext } from "react";
+import { ItemsContext } from "../contextStore/todoItemsContext";
+export default function Todo(){
+  
+  const {addButton}=useContext(ItemsContext)
 
-function addItem(){
-  onAddButtonClick(item);
-  setItem('')
+ const itemName=useRef();
+
+function addItem(event){
+  event.preventDefault();
+  addButton(itemName.current.value);
+  itemName.current.value=''
+
 }
 
 return(
 <>
 
+<form onSubmit={addItem}>
 <div style={{ marginTop:'100px' ,maxWidth: '500px', margin: 'auto', padding: '20px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom:'20px' }}>
 <input type="text"
        placeholder="Enter here"
+       ref={itemName}
        style={{
         flex: 1,
         maxWidth: '300px',
@@ -24,19 +32,19 @@ return(
         marginRight: '10px'
     }}
        className="form-control form-control-sm"
-       value={item}
-       onChange={e=>setItem(e.target.value)}
+       
 />
 
-<button type="button" 
+<button
         className="btn btn-warning"
-        onClick={addItem}
+       
         >Add
 </button>
 </div>
 
 
 </div>
+</form>
 </>
 );
 
